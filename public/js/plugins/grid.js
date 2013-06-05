@@ -1,5 +1,5 @@
 define([
-    'jquery',
+    'jquery.color',
 ], function() {
     function gridPlugin($grid) {
 

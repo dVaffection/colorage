@@ -3,12 +3,12 @@
  */
 
 define(function() {
-    var connectionString = 'http://colorage.dev/colorage';
+//    var connectionString = 'http://colorage.dev/colorage';
     var debuger = function() {
         console.debug.apply(console, arguments);
     };
 
-    function API() {
+    function API(connectionString, options) {
 
         var socket = io.connect(connectionString);
         var globalReqId = 0;
@@ -61,10 +61,12 @@ define(function() {
         });
     }
 
-    var api;
-    if (typeof api === 'undefined') {
-        api = new API;
-    }
+    var instance;
+    return function(connectionString, options) {
+        if (typeof instance === 'undefined') {
+            instance = new API(connectionString, options);
+        }
 
-    return api;
+        return instance;
+    };
 });

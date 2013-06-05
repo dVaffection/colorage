@@ -1,6 +1,9 @@
 define([
-    'api/server'
-], function(API) {
+    'config/index',
+    'api/server',
+], function(config, API) {
+
+    API = API(config.API.connectionString);
 
     return {
         post: function(data, callback) {
