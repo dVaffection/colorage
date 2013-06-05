@@ -1,0 +1,66 @@
+@contentMarginTop: 51px;
+
+#content {
+    margin-top: @contentMarginTop;
+}
+
+
+// form errors
+form {
+    ul.error {
+        list-style: none;
+
+        li {
+            color: #b94a48;
+        }
+    }
+}
+
+    
+
+#add-foodstuff-form {
+
+    position: fixed;
+
+    span.add-on {
+        width: 70px;
+        text-align: right;
+        font-weight: bold;
+    }
+}
+
+
+#manage-foodstuff-form {
+
+    // grid buttons
+    .table-buttons {
+        position: fixed;
+        background-color: white;
+        
+        top: @contentMarginTop;
+        left: 50%;
+        margin-left: -10%;
+
+        .filter {
+            margin-left: 10px;
+        }
+    }
+
+    // set columns fixed size
+    table {
+        margin-top: 40px;
+
+        .name {
+            width: 20%;
+        }
+        .fat {
+            width: 20%;
+        }
+        .protein {
+            width: 20%;
+        }
+        .carbohydrates {
+            width: 20%;
+        }
+    }
+}
