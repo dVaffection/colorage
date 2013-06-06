@@ -7,12 +7,12 @@ define([
 
     var navigation = [
         {
-            label: 'Home',
+            label: 'Ration',
             hash: '',
             active: false
         },
         {
-            label: 'Foodstuff',
+            label: 'Foodstuff DB',
             hash: 'foodstuff/',
             active: false
         }

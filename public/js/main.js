@@ -14,6 +14,7 @@ requirejs.config({
         'jquery.serialize-object': "lib/jquery.serialize-object",
         'jquery.color': 'lib/jquery.color-2.1.2.min',
         async: 'lib/async',
+        fullcalendar: 'lib/fullcalendar.min',
     },
     shim: {
         'jquery.serialize-object': {
@@ -22,7 +23,10 @@ requirejs.config({
         'jquery.color': {
             deps: ['jquery']
         },
-        'bootstrap' : {
+        'bootstrap': {
+            deps: ['jquery']
+        },
+        'fullcalendar': {
             deps: ['jquery']
         },
     },
