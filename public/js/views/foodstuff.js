@@ -188,8 +188,7 @@ define([
             offset = 30;
 
 
-        $(document).scroll(function(event) {
-
+        $(document).on('scroll.foodstuffList', function(event) {
             if (processing || fullyLoaded) {
                 return;
             }
