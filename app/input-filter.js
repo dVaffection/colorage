@@ -35,9 +35,13 @@ function inputFilter(rules) {
                 if (handlers.validators) {
                     try {
                         // yea, use one validator per time
-                        // though in most cases it should be sufficient
+                        // in most cases it should be sufficient
                         _.each(handlers.validators, function(validator) {
-                            check(values[name])[validator]();
+                            if (typeof validator === 'function') {
+                                validator(values[name]);
+                            } else {
+                                check(values[name])[validator]();
+                            }
                         });
                     } catch (e) {
                         errors[name] = e.message;

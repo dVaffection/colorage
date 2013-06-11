@@ -4,12 +4,15 @@
     "private": true, 
     "dependencies": {
         "socket.io": "0.9.x",
+        "socket.io-client": "0.9.x",
         "validator": "1.0.0",
         "underscore": "1.4.x",
         "mongoose": "3.6.x",
         "async": "0.2.x",
         "q": "0.9.x",
         "service-locator": "0.x.x",
-        "Faker": "0.x.x"
+        "Faker": "0.x.x",
+        "cli-color": "x.x.x",
+        "datejs": "x.x.x"
     }
 }

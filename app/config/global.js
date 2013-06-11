@@ -1,32 +1,37 @@
 module.exports = {
-    'mongo' : {
-        'connectionString' : 'mongodb://localhost/colorage',
-        'debug': false,
+    timezone: 'UTC',
+    mongo: {
+        connectionString: 'mongodb://localhost/colorage',
+        debug: false,
     },
-    'routes': {
+    routes: {
         'FOODSTUFF:POST': {
-            'service': 'foodstuff',
-            'action': 'post',
+            service: 'foodstuff',
+            action: 'post',
         },
         'FOODSTUFF:PUT': {
-            'service': 'foodstuff',
-            'action': 'put',
+            service: 'foodstuff',
+            action: 'put',
         },
         'FOODSTUFF:DELETE': {
-            'service': 'foodstuff',
-            'action': 'delete',
+            service: 'foodstuff',
+            action: 'delete',
         },
         'FOODSTUFF:GET': {
-            'service': 'foodstuff',
-            'action': 'get',
+            service: 'foodstuff',
+            action: 'get',
         },
         'FOODSTUFF:GET_ALL': {
-            'service': 'foodstuff',
-            'action': 'getAll',
+            service: 'foodstuff',
+            action: 'getAll',
         },
         'FOODSTUFF:SEARCH': {
-            'service': 'foodstuff',
-            'action': 'search',
+            service: 'foodstuff',
+            action: 'search',
+        },
+        'RATION:POST': {
+            service: 'ration',
+            action: 'post',
         },
     },
 };

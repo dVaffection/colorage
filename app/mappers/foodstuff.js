@@ -6,12 +6,12 @@ module.exports = function(serviceLocator) {
 
 
     var schema = mongoose.Schema({
-        name: String,
+        name: {type: String, index: true},
         fat: Number,
         carbohydrate: Number,
         protein: Number,
         per_gramm: Number,
-    });
+    }, {strict: true});
     var Model = serviceLocator.modelsProxy.getOrCreateModel('Foodstuff',
         schema);
 

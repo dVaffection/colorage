@@ -7,6 +7,11 @@ module.exports = function(config) {
 };
 
 function bootstrap(config, serviceLocator) {
+    if (!config.timezone) {
+        throw new Error('Timezone was not set in the provided configuration');
+    }
+    process.env.TZ = config.timezone;
+
     (function(config) {
         var mongoose = require('mongoose');
         mongoose.connect(config.connectionString);
@@ -29,6 +34,18 @@ function bootstrap(config, serviceLocator) {
         serviceLocator.register('foodstuffMapper', function() {
             if (typeof cache === 'undefined') {
                 var mapper = require('./mappers/foodstuff');
+                cache = new mapper(serviceLocator);
+            }
+            return cache;
+        });
+    })();
+
+
+    (function() {
+        var cache;
+        serviceLocator.register('rationMapper', function() {
+            if (typeof cache === 'undefined') {
+                var mapper = require('./mappers/ration');
                 cache = new mapper(serviceLocator);
             }
             return cache;
