@@ -25,17 +25,33 @@ var debuger = function(type) {
     console.log(label + message);
 };
 
-function API(connectionString, options) {
+function API(connectionString, options, debug) {
     var defaultOptions = {
-        debug: false,
+        'connect timeout': 1000,
     };
     options = _.extend(defaultOptions, options);
 
     var socket = require('socket.io-client')
-        .connect(connectionString);
+        .connect(connectionString, options);
     var globalReqId = 0;
     // bridge between request and its response connected with global reqId
     var reqResMap = {};
+
+    socket.on('connect', function() {
+        socket.on('disconnect', function() {
+            if (debug) {
+                debuger('error', 'Server diconnected!');
+                process.exit();
+            }
+        });
+    });
+
+    socket.on('error', function(err) {
+        if (debug) {
+            debuger('error', err);
+            process.exit();
+        }
+    });
 
     this.cmd = function(cmd, params, callback) {
         var reqId = ++globalReqId;
@@ -51,13 +67,13 @@ function API(connectionString, options) {
         };
         socket.emit('default', request);
 
-        if (options.debug) {
+        if (debug) {
             debuger('debug', 'request "' + cmd + '" (' + reqId + ')', request);
         }
     };
 
     socket.on('default', function(response) {
-        if (options.debug) {
+        if (debug) {
             var type = response.RES_STATUS
                 ? 'debug'
                 : 'error';
@@ -81,9 +97,9 @@ function API(connectionString, options) {
 
 
 var instance;
-module.exports = function(connectionString, options) {
+module.exports = function(connectionString, options, debug) {
     if (typeof instance === 'undefined') {
-        instance = new API(connectionString, options);
+        instance = new API(connectionString, options, debug);
     }
 
     return instance;

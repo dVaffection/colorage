@@ -7,8 +7,7 @@ module.exports = function(serviceLocator) {
     var response = new api.response();
 
     var inputFilterRules = require('../input-filters-rules/ration')(serviceLocator);
-//    var inputFilter = require('../input-filter').inputFilter;
-    var inputFilter = require('../input-filter-ext').inputFilter;
+    var inputFilter = require('../input-filter-async').inputFilter;
 
     var mapperRation = serviceLocator['rationMapper']();
 

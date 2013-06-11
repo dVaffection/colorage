@@ -50,9 +50,9 @@ module.exports = function(api) {
 
             // make sure we exit by timeout if server didn't respond
             setTimeout(function() {
-                console.log(clc.bgRed('Exited by timeout'));
+                console.log(clc.bgRed('Client manually disconnected by timeout after 1 sec'));
                 process.exit();
-            }, 3000);
+            }, 1000);
         };
     }
 
