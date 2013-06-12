@@ -28,7 +28,7 @@ module.exports = function(api) {
                         };
 
                         if (!response.RES_STATUS) {
-                            callback('Error');
+                            callback(response.RES_ERROR_DESC);
                         } else {
                             callback(null);
                         }

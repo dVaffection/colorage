@@ -8,7 +8,7 @@ module.exports = exports = function(serviceLocator) {
         date: {
             required: true,
             validators: [
-            dateFormatValidator,
+                dateFormatValidator,
             ],
         },
         intake: {
@@ -27,49 +27,78 @@ module.exports = exports = function(serviceLocator) {
             required: true,
         },
     };
+    _.extend(put, post);
+
+    var get = {
+        intake_id: {
+            required: true,
+        },
+        date: {
+            required: true,
+            validators: [
+                dateFormatValidator,
+            ],
+        },
+    };
+
+    var moveUp = {
+        intake_id: {
+            required: true,
+        },
+        date: {
+            required: true,
+            validators: [
+                dateFormatValidator,
+            ],
+        },
+    };
+
+    var moveDown = {
+        intake_id: {
+            required: true,
+        },
+        date: {
+            required: true,
+            validators: [
+                dateFormatValidator,
+            ],
+        },
+    };
+
+    var remove = {
+        intake_id: {
+            required: true,
+        },
+        date: {
+            required: true,
+            validators: [
+                dateFormatValidator,
+            ],
+        },
+    };
+
+    var getAll = {
+        since_date: {
+            required: true,
+            validators: [
+                dateFormatValidator,
+            ],
+        },
+        until_date: {
+            required: true,
+            validators: [
+                dateFormatValidator,
+            ],
+        },
+    };
 
     return {
         post: post,
         put: put,
+        get: get,
+        delete: remove,
+        moveUp: moveUp,
+        moveDown: moveDown,
+        getAll: getAll,
     };
 };
-
-
-//exports.getAll = {
-//    since_date: {
-//        required: true,
-//        validators: [
-//            dateFormatValidator,
-//        ],
-//    },
-//    until_date: {
-//        required: true,
-//        validators: [
-//            dateFormatValidator,
-//        ],
-//    },
-//};
-//
-//exports.delete = {
-//    intake_id: {
-//        required: true,
-//    },
-//};
-//
-//exports.get = {
-//    intake_id: {
-//        required: true,
-//    },
-//};
-//
-//exports.moveUp = {
-//    intake_id: {
-//        required: true,
-//    },
-//};
-//
-//exports.moveDown = {
-//    intake_id: {
-//        required: true,
-//    },
-//};

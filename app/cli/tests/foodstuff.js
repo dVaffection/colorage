@@ -28,7 +28,7 @@ var tasks = [
                 fat: Faker.random.number(100),
                 carbohydrate: Faker.random.number(100),
                 protein: Faker.random.number(100),
-                per_gramm: 100,
+                per_gramm: Faker.random.number(100),
             },
         };
     },

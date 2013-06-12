@@ -33,5 +33,29 @@ module.exports = {
             service: 'ration',
             action: 'post',
         },
+        'RATION:PUT': {
+            service: 'ration',
+            action: 'put',
+        },
+        'RATION:GET': {
+            service: 'ration',
+            action: 'get',
+        },
+        'RATION:DELETE': {
+            service: 'ration',
+            action: 'delete',
+        },
+        'RATION:MOVE_UP': {
+            service: 'ration',
+            action: 'moveUp',
+        },
+        'RATION:MOVE_DOWN': {
+            service: 'ration',
+            action: 'moveDown',
+        },
+        'RATION:GET_ALL': {
+            service: 'ration',
+            action: 'getAll',
+        },
     },
 };
