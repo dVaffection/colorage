@@ -5,8 +5,8 @@ module.exports = function(value) {
 
     if (_.isObject(value)) {
         filteredValue = {
-            foodstuff_id: value.foodstuff_id,
-            mass: parseInt(value.mass, 10),
+            foodstuff_id: value.foodstuff_id ? value.foodstuff_id : null,
+            mass: value.mass ? parseInt(value.mass, 10) : null,
         };
     } else {
         filteredValue = {

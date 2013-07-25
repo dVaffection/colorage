@@ -13,6 +13,7 @@
         "service-locator": "0.x.x",
         "Faker": "0.x.x",
         "cli-color": "x.x.x",
-        "datejs": "x.x.x"
+        "datejs": "x.x.x",
+        "nodeunit": "0.8.x"
     }
 }

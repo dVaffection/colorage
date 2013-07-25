@@ -106,4 +106,4 @@ function inputFilter(rules) {
     }
 }
 
-exports.inputFilter = inputFilter;
+module.exports = inputFilter;

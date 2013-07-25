@@ -6,7 +6,7 @@ module.exports = function(serviceLocator) {
     var response = new api.response();
 
     var inputFilterRules = require('../input-filters-rules/foodstuff');
-    var inputFilter = require('../input-filter-async').inputFilter;
+    var inputFilter = require('../input-filter-async');
 
     var mapperFoodstuff = serviceLocator['foodstuffMapper']();
 

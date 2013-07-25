@@ -26,7 +26,7 @@ module.exports = function(serviceLocator) {
     }
 
     this.put = function(data, callback) {
-        this.__get(data.id, function(err, doc) {
+        this.findOneById(data.id, function(err, doc) {
             if (err) {
                 callback(err);
             } else {
@@ -51,10 +51,10 @@ module.exports = function(serviceLocator) {
     }
 
     this.get = function(data, callback) {
-        this.__get(data.id, callback);
+        this.findOneById(data.id, callback);
     }
 
-    this.__get = function(id, callback) {
+    this.findOneById = function(id, callback) {
         Model.findOne({_id: id}, callback);
     }
 

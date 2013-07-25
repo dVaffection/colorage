@@ -121,6 +121,8 @@ function inputFilter(rules) {
             };
         });
 
+
+        var inputFilter = this;
         // go through asynchronous tasks simultaneously
         // (in other words, let's validate incoming data in parallel)
         async.parallel(tasks, function(err) {
@@ -132,7 +134,11 @@ function inputFilter(rules) {
                 throw err;
             }
 
-            callback(_.isEmpty(errors));
+            if (!_.isFunction(callback)) {
+                var message = 'Input filter is asynchronous. Callback function is required';
+                throw new Error(message);
+            }
+            callback.call(inputFilter, _.isEmpty(errors));
         });
     }
 
@@ -149,4 +155,4 @@ function inputFilter(rules) {
     }
 }
 
-exports.inputFilter = inputFilter;
+module.exports = inputFilter;

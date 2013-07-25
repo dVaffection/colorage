@@ -1,9 +1,17 @@
-<ul class="nav">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
 
-    <% _.each(navigation, function(item) { %>
-    <li class="<%= item.active ? 'active' : '' %>">
-        <a href="#<%= item.hash %>"><%= item.label %></a>
-    </li>
-    <% }); %>
+            <ul class="nav">
 
-</ul>
+                <% _.each(navigation, function(item) { %>
+                <li class="<%= item.active ? 'active' : '' %>">
+                    <a href="#<%= item.hash %>"><%= item.label %></a>
+                </li>
+                <% }); %>
+
+            </ul>
+
+        </div>
+    </div>
+</div>

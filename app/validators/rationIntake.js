@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-module.exports = function(serviceLocator) {
+module.exports = function(findFoodstuffByIdCallback) {
 
     function validateFoodstuff(foodstuffId, callback) {
         var message = 'Supplied foodstuff_id "' + foodstuffId + '" does not exist';
@@ -8,8 +8,7 @@ module.exports = function(serviceLocator) {
         if (!foodstuffId) {
             callback(message);
         } else {
-            var mapperFoodstuff = serviceLocator['foodstuffMapper']();
-            mapperFoodstuff.__get(foodstuffId, function(err, doc) {
+            findFoodstuffByIdCallback(foodstuffId, function(err, doc) {
                 if (err) {
                     console.log(err);
                 }
@@ -31,16 +30,21 @@ module.exports = function(serviceLocator) {
     ;
 
     return function(intake, params, callback) {
-        
-        validateFoodstuff(intake.foodstuff_id, function(err) {
-            if (err) {
-                callback(err);
-            } else {
-                validateMass(intake.mass, function(err) {
+
+        if (!_.isObject(intake)) {
+            var message = 'Intake must be type of object';
+            callback(message);
+        } else {
+            validateFoodstuff(intake.foodstuff_id, function(err) {
+                if (err) {
                     callback(err);
-                });
-            }
-        });
+                } else {
+                    validateMass(intake.mass, function(err) {
+                        callback(err);
+                    });
+                }
+            });
+        }
 
     };
 };

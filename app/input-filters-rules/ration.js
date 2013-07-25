@@ -3,7 +3,10 @@ var rationIntakeFilter = require('../filters/rationIntake');
 var dateFormatValidator = require('../validators/dateFormat');
 var rationIntakeValidator = require('../validators/rationIntake');
 
-module.exports = exports = function(serviceLocator) {
+module.exports = function(serviceLocator) {
+    var mapperFoodstuff = serviceLocator['foodstuffMapper']();
+    mapperFoodstuff.findOneById();
+
     var post = {
         date: {
             required: true,
@@ -17,7 +20,7 @@ module.exports = exports = function(serviceLocator) {
                 rationIntakeFilter,
             ],
             validators: [
-                rationIntakeValidator(serviceLocator),
+                rationIntakeValidator(mapperFoodstuff.findOneById),
             ],
         },
     };

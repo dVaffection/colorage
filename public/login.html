@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <style>
+            html, body {
+                height: 100%;
+                color: #FFF;
+                background-color: #85242F;
+            }
+            #table {
+                display: table;
+                height: 100%;
+                width: 100%;
+            }
+
+            #cell {
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            #content {
+                width: 530px;
+                margin: 0 auto;
+                padding: 20px;
+                -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            }
+            form {
+                display: block;
+                background: rgba(57, 60, 61, 0.8);
+                -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+                -moz-border-radius: 3px;
+                -webkit-border-radius: 3px;
+                border-radius: 3px;
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                padding: 4px;
+                line-height: 1.2;
+            }
+            form input {
+                margin-bottom: 0px!important;
+            }
+            form input:focus:invalid:focus {
+                
+            }
+        </style>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" data-main="js/auth.js" src="/js/require.js"></script>
+    </head>
+    <body>
+        <div id="table">
+            <div id="cell">
+                <div id="content">
+                    <h1>Welcome to Colorage</h1>
+                    <form method="post">
+                        <input type="email" name="identity" placeholder="Please provide your identity" required />
+                        <input type="password" name="credential" placeholder="and credential!" required />
+                        <button type="submit" class="btn">Sign in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
