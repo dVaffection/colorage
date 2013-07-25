@@ -19,14 +19,13 @@ It's a test project featuring Node.js API usage on the backend and Backbone on t
 * Install mongodb `sudo apt-get install mongodb`
 * Make sure port 8181 is free
 * Start application by running `node app/app.js`
-* Run 
+* Run `node tests/functional/index.js`
 
 **Note:** *Both functional and unit tests can be run via pre-commit script `./dev/git/hooks/pre-commit -v`*
 
 
 ### Accessing website
-* Install nginx 1.4 or higher with support of websockets
-Configuration
+* Install nginx 1.4 or higher with support of websockets. Configuration
 ```
 server {
         listen          80;
@@ -47,4 +46,4 @@ server {
         }
 }
 ```
-* Add colorage.dev to /etc/hosts
+* Add **colorage.dev** to */etc/hosts* or make things easier and install [Dnsmasq](https://help.ubuntu.com/community/Dnsmasq)
