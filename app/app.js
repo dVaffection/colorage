@@ -10,7 +10,7 @@ var app = require('http').createServer(htmlHandler)
     , fs = require('fs')
     ;
 
-app.listen(8181);
+app.listen(require('./config/index').port);
 
 function htmlHandler(req, res) {
     var filename;

@@ -43,6 +43,7 @@ module.exports = function(api) {
                     console.log(clc.bgGreen('Success!!!'));
                 }
 
+                // tests are done, exit
                 process.exit();
             };
 
@@ -51,7 +52,7 @@ module.exports = function(api) {
             // make sure we exit by timeout if server didn't respond
             setTimeout(function() {
                 console.log(clc.bgRed('Client manually disconnected by timeout after 1 sec'));
-                process.exit();
+                process.exit(1);
             }, 1000);
         };
     }

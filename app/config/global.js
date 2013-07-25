@@ -1,5 +1,6 @@
 module.exports = {
     timezone: 'UTC',
+    port: 8181,
     mongo: {
         connectionString: 'mongodb://localhost/colorage',
         debug: false,

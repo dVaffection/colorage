@@ -1,10 +1,8 @@
 require('datejs');
-var api = require('./api')('http://colorage.dev/colorage', {}, true);
-var skeleton = require('./skeleton')(api);
 var Faker = require('Faker');
 
 
-var tasks = [
+module.exports = [
     function(tasksData) {
         return {
             cmd: 'FOODSTUFF:POST',
@@ -69,5 +67,3 @@ var tasks = [
         };
     },
 ];
-
-skeleton.run(tasks);
