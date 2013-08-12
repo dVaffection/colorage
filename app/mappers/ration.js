@@ -1,17 +1,15 @@
-module.exports = function(serviceLocator) {
+module.exports = function(mongoose, modelsProxy) {
 
     require('datejs');
     var async = require('async');
     var _ = require('underscore');
-    var mongoose = serviceLocator.mongoose;
-
 
     var schema = mongoose.Schema({
         date: Date,
         intakes: [],
     }, {strict: true});
     schema.index({date: -1}, {unique: true});
-    var Model = serviceLocator.modelsProxy.getOrCreateModel('Ration', schema);
+    var Model = modelsProxy.getOrCreateModel('Ration', schema);
 
 
     this.post = function(data, callback) {

@@ -13,18 +13,18 @@ var app = require('http').createServer(htmlHandler)
 app.listen(require('./config/index').port);
 
 function htmlHandler(req, res) {
-    var filename;
+    var filename = __dirname + '/../public/';
     var code;
     switch (req.url) {
         case '/' :
-            filename = __dirname + '/../public/index.html';
+            filename += 'index.html';
             break;
         case '/login/' :
-            filename = __dirname + '/../public/login.html';
+            filename += 'login.html';
             break;
         default :
             code = 404;
-            filename = __dirname + '/../public/404.html';
+            filename += '404.html';
             break;
     }
     

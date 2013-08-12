@@ -34,7 +34,8 @@ function bootstrap(config, serviceLocator) {
         serviceLocator.register('foodstuffMapper', function() {
             if (typeof cache === 'undefined') {
                 var mapper = require('./mappers/foodstuff');
-                cache = new mapper(serviceLocator);
+                cache = new mapper(serviceLocator.mongoose,
+                    serviceLocator.modelsProxy);
             }
             return cache;
         });
@@ -46,7 +47,8 @@ function bootstrap(config, serviceLocator) {
         serviceLocator.register('rationMapper', function() {
             if (typeof cache === 'undefined') {
                 var mapper = require('./mappers/ration');
-                cache = new mapper(serviceLocator);
+                cache = new mapper(serviceLocator.mongoose,
+                    serviceLocator.modelsProxy);
             }
             return cache;
         });

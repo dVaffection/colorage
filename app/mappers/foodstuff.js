@@ -1,8 +1,7 @@
-module.exports = function(serviceLocator) {
+module.exports = function(mongoose, modelsProxy) {
 
     var async = require('async');
     var _ = require('underscore');
-    var mongoose = serviceLocator.mongoose;
 
 
     var schema = mongoose.Schema({
@@ -12,8 +11,7 @@ module.exports = function(serviceLocator) {
         protein: Number,
         per_gramm: Number,
     }, {strict: true});
-    var Model = serviceLocator.modelsProxy.getOrCreateModel('Foodstuff',
-        schema);
+    var Model = modelsProxy.getOrCreateModel('Foodstuff', schema);
 
 
     this.post = function(data, callback) {
