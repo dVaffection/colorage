@@ -3,7 +3,7 @@ Colorage
 
 [![Build Status](https://travis-ci.org/dVaffection/colorage.png?branch=master)](https://travis-ci.org/dVaffection/colorage)
 
-This is a test project featuring **Node.js** API usage on the backend and **Backbone** on the frontend interacting via **Websockets**. 
+This is a test project featuring **Node.js** API usage on the backend and **Backbone** on the frontend interacting via **Websockets** usgin [Travis-CI](https://travis-ci.org/dVaffection/colorage)
 
 ## Installation
 * Clone project `git clone https://github.com/dVaffection/colorage.git`

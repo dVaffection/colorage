@@ -8,4 +8,5 @@ services:
   - mongodb
 
 before_script:
+  - "cp app/config/local.js.sample app/config/local.js"
   - "node app/app.js"
