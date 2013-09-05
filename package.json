@@ -1,8 +1,17 @@
 {
     "name": "colorage",
-    "version": "0.0.1",
-    "private": true, 
+    "version": "0.0.0",
+    "author": {
+        "name": "dV",
+        "email": "dVaffection@gmail.com"
+    },
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/dVaffection/colorage.git"
+    },
     "dependencies": {
+        "input-filter-async": "0.0.x",
         "socket.io": "0.9.x",
         "socket.io-client": "0.9.x",
         "validator": "1.0.0",
@@ -14,7 +23,12 @@
         "Faker": "0.x.x",
         "cli-color": "x.x.x",
         "datejs": "x.x.x",
-        "nodeunit": "0.8.x",
         "optimist": "0.6.x"
+    },
+    "devDependencies": {
+        "nodeunit": "0.8.x"
+    },
+    "scripts": {
+        "test": "./node_modules/nodeunit/bin/nodeunit tests/unit/*; ./tests/functional/index.js;"
     }
 }

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var util = require('util');
 var clc = require('cli-color');
 var _ = require('underscore');
