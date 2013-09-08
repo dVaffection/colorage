@@ -12,8 +12,10 @@ function apiRequest(data) {
 
 
 function apiResponse() {
-    var _status = _errorDesc = null;
-    var _data = _errors = {};
+    var _status,
+        _errorDesc,
+        _data = {},
+        _errors = {};
 
     this.success = function(data) {
         _status = true;
@@ -41,13 +43,21 @@ function apiResponse() {
             RES_ID: request.id
         };
 
-        if (_status) {
-            response.RES_STATUS = true;
-            response.RES_DATA = _data;
-        } else {
-            response.RES_STATUS = false;
-            response.RES_ERROR_DESC = _errorDesc;
-            response.RES_ERRORS = _errors;
+        switch (_status) {
+            case true :
+                response.RES_STATUS = true;
+                response.RES_DATA = _data;
+                break;
+
+            case false :
+                response.RES_STATUS = false;
+                response.RES_ERROR_DESC = _errorDesc;
+                response.RES_ERRORS = _errors;
+                break;
+
+            default :
+                throw new Error('Response status was not set');
+                break;
         }
 
         return response;

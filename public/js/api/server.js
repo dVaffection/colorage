@@ -61,12 +61,14 @@ define(function() {
         });
     }
 
-    var instance;
-    return function(connectionString, options) {
-        if (typeof instance === 'undefined') {
-            instance = new API(connectionString, options);
-        }
+    return API;
 
-        return instance;
-    };
+//    var instance;
+//    return function(connectionString, options) {
+//        if (typeof instance === 'undefined') {
+//            instance = new API(connectionString, options);
+//        }
+//
+//        return instance;
+//    };
 });

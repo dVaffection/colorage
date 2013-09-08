@@ -6,6 +6,14 @@ module.exports = {
         debug: false,
     },
     routes: {
+        'AUTH:LOGIN': {
+            service: 'auth',
+            action: 'login',
+        },
+        'AUTH:IS_LOGGED': {
+            service: 'auth',
+            action: 'isLogged',
+        },
         'FOODSTUFF:POST': {
             service: 'foodstuff',
             action: 'post',

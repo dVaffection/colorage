@@ -1,14 +1,32 @@
 define([
+    'mappers/auth',
     'router',
     'backbone',
-    'bootstrap', 
+    'bootstrap',
     'jquery.serialize-object',
     'jquery.color'
-], function(Router) {
+], function(authMapper, Router) {
+    function varifyAuth(callback) {
+        var session = localStorage.session;
+        session = JSON.parse(session);
+        if (session.id) {
+            authMapper.isLogged(session.id, function(response) {
+                callback(response.RES_STATUS);
+            });
+        } else {
+            callback(false);
+        }
+    }
+
+
     var initialize = function() {
-//        require(['iosync'], function() {
-            Router.initialize();
-//        });
+        varifyAuth(function(isVarified) {
+            if (isVarified) {
+                Router.initialize();
+            } else {
+                document.location.href = document.location.origin + '/login/';
+            }
+        });
     }
 
     return {

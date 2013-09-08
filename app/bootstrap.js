@@ -23,6 +23,27 @@ function bootstrap(config, serviceLocator) {
         serviceLocator.register('mongoose', mongoose);
     })(config.mongo);
 
+//    (function() {
+//        var cache;
+//        serviceLocator.register('mongoose', function() {
+//            if (typeof cache === 'undefined') {
+//                cache = require('mongoose');
+//                cache.connect(config.mongo.connectionString);
+//                cache.set('debug', config.mongo.debug);
+//                cache.connection.on('error', function(error) {
+//                    if (!error instanceof Error) {
+//                        error = new Error(error);
+//                    }
+//                    throw error;
+//                });
+//            }
+//
+//            console.dir(cache);
+//            process.exit();
+//            return cache;
+//        });
+//    })();
+
 
     var mapperModelsProxy = require('./mappers/modelsProxy');
     serviceLocator.register('modelsProxy', new mapperModelsProxy(
@@ -47,6 +68,30 @@ function bootstrap(config, serviceLocator) {
         serviceLocator.register('rationMapper', function() {
             if (typeof cache === 'undefined') {
                 var mapper = require('./mappers/ration');
+                cache = new mapper(serviceLocator.mongoose,
+                    serviceLocator.modelsProxy);
+            }
+            return cache;
+        });
+    })();
+
+    (function() {
+        var cache;
+        serviceLocator.register('UsersMapper', function() {
+            if (typeof cache === 'undefined') {
+                var mapper = require('./mappers/users');
+                cache = new mapper(serviceLocator.mongoose,
+                    serviceLocator.modelsProxy);
+            }
+            return cache;
+        });
+    })();
+
+    (function() {
+        var cache;
+        serviceLocator.register('SessionsMapper', function() {
+            if (typeof cache === 'undefined') {
+                var mapper = require('./mappers/sessions');
                 cache = new mapper(serviceLocator.mongoose,
                     serviceLocator.modelsProxy);
             }

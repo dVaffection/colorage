@@ -1,14 +1,15 @@
-var serviceLocator;
+var serviceLocator,
+    config,
+    bootstrap;
 if (typeof serviceLocator === 'undefined') {
-    var config = require('./config/index');
-    var bootstrap = require('./bootstrap');
+    config = require('./config/index');
+    bootstrap = require('./bootstrap');
     serviceLocator = bootstrap(config);
 }
 
-var app = require('http').createServer(htmlHandler)
-    , io = require('socket.io').listen(app)
-    , fs = require('fs')
-    ;
+var app = require('http').createServer(htmlHandler),
+    io = require('socket.io').listen(app),
+    fs = require('fs');
 
 app.listen(require('./config/index').port);
 
@@ -27,7 +28,7 @@ function htmlHandler(req, res) {
             filename += '404.html';
             break;
     }
-    
+
     fs.readFile(filename, function(err, data) {
         if (err) {
             res.writeHead(500);
@@ -41,6 +42,8 @@ function htmlHandler(req, res) {
 
 
 io.of('/colorage').on('connection', function(socket) {
+
+    console.log('!!!!!!!!!!1');
 
 //    socket.get('auth', function(err, value) {
 //        console.log('handshake:', socket.handshake);
