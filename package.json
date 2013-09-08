@@ -19,10 +19,10 @@
     "mongoose": "3.6.x",
     "async": "0.2.x",
     "q": "0.9.x",
-    "service-locator": "0.x.x",
-    "Faker": "0.x.x",
+    "service-locator": "0.0.x",
+    "Faker": "0.5.x",
     "cli-color": "0.2.x",
-    "datejs": "x.x.x",
+    "datejs": "1.0.x",
     "optimist": "0.6.x",
     "bcrypt": "0.7.x"
   },

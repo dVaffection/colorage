@@ -1,4 +1,5 @@
-module.exports = function(serviceLocator) {
+module.exports = function (serviceLocator) {
+    "use strict";
 
     var async = require('async'),
         bcrypt = require('bcrypt');
@@ -9,7 +10,7 @@ module.exports = function(serviceLocator) {
     var mapperUsers = serviceLocator['UsersMapper'](),
         mapperSessions = serviceLocator['SessionsMapper']();
 
-    this.login = function(params, callback) {
+    this.login = function (params, callback) {
         var identity = params.identity;
         var credentail = params.credential;
 
@@ -17,7 +18,7 @@ module.exports = function(serviceLocator) {
             findUser,
             varifyCredential,
             createSession
-        ], function(err, session) {
+        ], function (err, session) {
             if (err) {
                 response.error(err);
             } else {
@@ -34,6 +35,7 @@ module.exports = function(serviceLocator) {
         });
 
         function findUser(callback) {
+            identity = identity.toLowerCase();
             mapperUsers.get(identity, callback);
         }
 
@@ -56,11 +58,11 @@ module.exports = function(serviceLocator) {
         }
     }
 
-    this.isLogged = function(params, callback) {
-        mapperSessions.get(params.sessionId, function(err, doc) {
+    this.isLogged = function (params, callback) {
+        mapperSessions.get(params.sessionId, function (err, doc) {
             if (err) {
                 response.error(err);
-            } else if(!doc) {
+            } else if (! doc) {
                 var err = 'Session was not found';
                 response.error(err);
             } else {

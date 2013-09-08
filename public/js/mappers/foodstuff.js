@@ -2,17 +2,7 @@ define([
     'config/index',
     'api/server',
 ], function(config, API) {
-
-    var instance;
-    function createInstance(connectionString, options) {
-        if (typeof instance === 'undefined') {
-            instance = new API(connectionString, options);
-        }
-
-        return instance;
-    };
-
-    API = createInstance(config.API.connectionString);
+    API = API(config.API.connectionString);
 
     return {
         post: function(data, callback) {

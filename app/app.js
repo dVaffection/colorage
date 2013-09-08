@@ -11,7 +11,8 @@ var app = require('http').createServer(htmlHandler),
     io = require('socket.io').listen(app),
     fs = require('fs');
 
-app.listen(require('./config/index').port);
+app.listen(config.port);
+console.log('http://localhost:' + config.port);
 
 function htmlHandler(req, res) {
     var filename = __dirname + '/../public/';
@@ -29,7 +30,7 @@ function htmlHandler(req, res) {
             break;
     }
 
-    fs.readFile(filename, function(err, data) {
+    fs.readFile(filename, function (err, data) {
         if (err) {
             res.writeHead(500);
             return res.end('Error loading html');
@@ -41,7 +42,7 @@ function htmlHandler(req, res) {
 }
 
 
-io.of('/colorage').on('connection', function(socket) {
+io.of('/colorage').on('connection', function (socket) {
 
     console.log('!!!!!!!!!!1');
 
@@ -61,14 +62,14 @@ io.of('/colorage').on('connection', function(socket) {
 //    });
 
 
-    socket.on('default', function(data) {
+    socket.on('default', function (data) {
         var config = require('./config/index');
         var api = require('./api');
 
         var request = new api.request(data);
         var router = new api.router(serviceLocator);
 
-        router.dispatch(config.routes, request, function(response) {
+        router.dispatch(config.routes, request, function (response) {
             socket.emit('default', response.export(request));
         });
 

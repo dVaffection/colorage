@@ -2,21 +2,25 @@
  * Server API
  */
 
-define(function() {
+define(function () {
 //    var connectionString = 'http://colorage.dev/colorage';
-    var debuger = function() {
+    var debuger = function () {
         console.debug.apply(console, arguments);
     };
 
     function API(connectionString, options) {
+
+        if (! connectionString) {
+            throw new Error('Connection string is empty: ' + connectionString);
+        }
 
         var socket = io.connect(connectionString);
         var globalReqId = 0;
         // bridge between request and its response connected with global reqId
         var reqResMap = {};
 
-        this.cmd = function(cmd, params, callback) {
-            var reqId = ++globalReqId;
+        this.cmd = function (cmd, params, callback) {
+            var reqId = ++ globalReqId;
 
             var request = {
                 REQ_CMD: cmd,
@@ -33,7 +37,7 @@ define(function() {
                 'background-color: #E6E6E6', cmd, reqId, request);
         };
 
-        socket.on('default', function(response) {
+        socket.on('default', function (response) {
             var debugStyle = response.RES_STATUS
                 ? 'background-color: white'
                 : 'background-color: #E75048; color: white; font-style: bold';
@@ -46,7 +50,7 @@ define(function() {
                 var callback = reqResMap[reqId].callback;
                 var request = reqResMap[reqId].request;
 
-                if (!callback) {
+                if (! callback) {
                     var message = 'Callback is not provided for response #' + reqId;
                     throw new Error(message);
                 }
@@ -54,21 +58,21 @@ define(function() {
             }
         });
 
-        socket.on('connect', function() {
-            socket.on('broadcast', function(response) {
+        socket.on('connect', function () {
+            socket.on('broadcast', function (response) {
                 debuger('Broadcast received', response);
             });
         });
     }
 
-    return API;
+//    return API;
 
-//    var instance;
-//    return function(connectionString, options) {
-//        if (typeof instance === 'undefined') {
-//            instance = new API(connectionString, options);
-//        }
-//
-//        return instance;
-//    };
+    var instance;
+    return function (connectionString, options) {
+        if (typeof instance === 'undefined') {
+            instance = new API(connectionString, options);
+        }
+
+        return instance;
+    };
 });
