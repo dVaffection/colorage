@@ -1,4 +1,4 @@
-module.exports = function(mongoose, modelsProxy) {
+module.exports = function (mongoose, modelsProxy) {
 
     require('datejs');
     var async = require('async');
@@ -10,33 +10,42 @@ module.exports = function(mongoose, modelsProxy) {
     }, {strict: true});
     var Model = modelsProxy.getOrCreateModel('User', schema);
 
+    this.getById = function (id, callback) {
+        if (typeof id === 'string') {
+            id = new mongoose.Types.ObjectId(id);
+        }
 
-    this.get = function(identity, callback) {
+        Model
+            .findOne()
+            .where('_id', id)
+            .exec(callback);
+    };
+
+
+    this.getByIdentity = function (identity, callback) {
         Model
             .findOne()
             .where('identity', identity)
-            .exec(callback)
-            ;
+            .exec(callback);
     };
 
-    this.post = function(identity, credentialHash, callback) {
+    this.post = function (identity, credentialHash, callback) {
         var data = {
             identity: identity,
             credential_hash: credentialHash
         };
 
         var doc = new Model(data);
-        doc.save(function(err) {
+        doc.save(function (err) {
             callback(err, doc);
         });
     };
 
-    this.delete = function(identity, callback) {
+    this.delete = function (identity, callback) {
         Model
             .remove()
             .where('identity', identity)
-            .exec(callback)
-            ;
+            .exec(callback);
     };
 
 }

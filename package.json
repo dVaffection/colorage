@@ -1,35 +1,36 @@
 {
-  "name": "colorage",
-  "version": "0.0.0",
-  "author": {
-    "name": "dV",
-    "email": "dVaffection@gmail.com"
-  },
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/dVaffection/colorage.git"
-  },
-  "dependencies": {
-    "input-filter-async": "0.0.x",
-    "socket.io": "0.9.x",
-    "socket.io-client": "0.9.x",
-    "validator": "1.0.0",
-    "underscore": "1.4.x",
-    "mongoose": "3.6.x",
-    "async": "0.2.x",
-    "q": "0.9.x",
-    "service-locator": "0.0.x",
-    "Faker": "0.5.x",
-    "cli-color": "0.2.x",
-    "datejs": "1.0.x",
-    "optimist": "0.6.x",
-    "bcrypt": "0.7.x"
-  },
-  "devDependencies": {
-    "nodeunit": "0.8.x"
-  },
-  "scripts": {
-    "test": "./node_modules/nodeunit/bin/nodeunit tests/unit/*; ./tests/functional/index.js;"
-  }
+    "name": "colorage",
+    "version": "0.0.0",
+    "author": {
+        "name": "dV",
+        "email": "dVaffection@gmail.com"
+    },
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/dVaffection/colorage.git"
+    },
+    "dependencies": {
+        "input-filter-async": "0.0.x",
+        "socket.io": "0.9.x",
+        "socket.io-client": "0.9.x",
+        "validator": "1.0.0",
+        "underscore": "1.4.x",
+        "mongoose": "3.6.x",
+        "async": "0.2.x",
+        "q": "0.9.x",
+        "service-locator": "0.0.x",
+        "Faker": "0.5.x",
+        "cli-color": "0.2.x",
+        "datejs": "0.0.x",
+        "optimist": "0.6.x",
+        "bcrypt": "0.7.x",
+        "simple-acl": "0.1.x"
+    },
+    "devDependencies": {
+        "nodeunit": "0.8.x"
+    },
+    "scripts": {
+        "test": "./node_modules/nodeunit/bin/nodeunit tests/unit/*; ./tests/functional/index.js;"
+    }
 }

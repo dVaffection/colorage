@@ -6,25 +6,27 @@ define([
 ], function (authMapper, TopMenuView, FoodstuffView, RationView) {
     "use strict";
 
-    function authMiddleware(callback) {
-        var session = JSON.parse(localStorage.session);
-        if (session.id) {
-            authMapper.isLogged(session.id, function (response) {
-                is(response.RES_STATUS);
-            });
-        } else {
-            is(false);
-        }
-
-        function is(result) {
-            console.log('Is authorized: ' + result);
-            if (result) {
-                callback();
-            } else {
-                document.location.href = document.location.origin + '/login/';
-            }
-        }
-    }
+//    function authMiddleware(callback) {
+//        var session = JSON.parse(localStorage.session);
+//        if (session.id) {
+//            authMapper.isSessionValid(session.id, function (response) {
+//                authMapper.auth(session.id, function (response) {
+//                    is(response.RES_STATUS);
+//                });
+//            });
+//        } else {
+//            is(false);
+//        }
+//
+//        function is(result) {
+//            console.log('Is authorized: ' + result);
+//            if (result) {
+//                callback();
+//            } else {
+//                document.location.href = document.location.origin + '/login/';
+//            }
+//        }
+//    }
 
     var Router = Backbone.Router.extend({
         initialize: function () {
@@ -54,17 +56,17 @@ define([
         });
 
         router.on('route:foodstuff', function () {
-            authMiddleware(function () {
+            //authMiddleware(function () {
                 foodstuffView = foodstuffView || new FoodstuffView();
                 foodstuffView.render();
-            });
+            //});
         });
 
         router.on('route:index', function () {
-            authMiddleware(function () {
+            //authMiddleware(function () {
                 rationView = rationView || new RationView();
                 rationView.render();
-            });
+            //});
         });
 
         Backbone.history.start();

@@ -5,16 +5,23 @@ define([
     API = API(config.API.connectionString);
 
     return {
-        login: function (identity, credential, callback) {
-            var cmd = 'AUTH:LOGIN';
+        createSession: function (identity, credential, callback) {
+            var cmd = 'AUTH:CREATE_SESSION';
             var params = {
                 identity: identity,
-                credential: credential,
+                credential: credential
             };
             API.cmd(cmd, params, callback);
         },
-        isLogged: function (sessionId, callback) {
-            var cmd = 'AUTH:IS_LOGGED';
+        restoreSession: function (sessionId, callback) {
+            var cmd = 'AUTH:RESTORE_SESSION';
+            var params = {
+                sessionId: sessionId
+            };
+            API.cmd(cmd, params, callback);
+        },
+        isSessionValid: function (sessionId, callback) {
+            var cmd = 'AUTH:IS_SESSION_VALID';
             var params = {
                 sessionId: sessionId
             };

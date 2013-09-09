@@ -1,4 +1,4 @@
-module.exports = function(config) {
+module.exports = function (config) {
     var serviceLocator = require('service-locator').createServiceLocator();
 
     bootstrap(config, serviceLocator);
@@ -7,42 +7,21 @@ module.exports = function(config) {
 };
 
 function bootstrap(config, serviceLocator) {
-    if (!config.timezone) {
+    if (! config.timezone) {
         throw new Error('Timezone was not set in the provided configuration');
     }
     process.env.TZ = config.timezone;
 
-    (function(config) {
+    (function (config) {
         var mongoose = require('mongoose');
         mongoose.connect(config.connectionString);
         mongoose.set('debug', config.debug);
-        mongoose.connection.on('error', function(error) {
+        mongoose.connection.on('error', function (error) {
             console.log('Mongoose connection error:', error);
         });
 
         serviceLocator.register('mongoose', mongoose);
     })(config.mongo);
-
-//    (function() {
-//        var cache;
-//        serviceLocator.register('mongoose', function() {
-//            if (typeof cache === 'undefined') {
-//                cache = require('mongoose');
-//                cache.connect(config.mongo.connectionString);
-//                cache.set('debug', config.mongo.debug);
-//                cache.connection.on('error', function(error) {
-//                    if (!error instanceof Error) {
-//                        error = new Error(error);
-//                    }
-//                    throw error;
-//                });
-//            }
-//
-//            console.dir(cache);
-//            process.exit();
-//            return cache;
-//        });
-//    })();
 
 
     var mapperModelsProxy = require('./mappers/modelsProxy');
@@ -50,9 +29,9 @@ function bootstrap(config, serviceLocator) {
         serviceLocator.mongoose));
 
 
-    (function() {
+    (function () {
         var cache;
-        serviceLocator.register('foodstuffMapper', function() {
+        serviceLocator.register('foodstuffMapper', function () {
             if (typeof cache === 'undefined') {
                 var mapper = require('./mappers/foodstuff');
                 cache = new mapper(serviceLocator.mongoose,
@@ -63,9 +42,9 @@ function bootstrap(config, serviceLocator) {
     })();
 
 
-    (function() {
+    (function () {
         var cache;
-        serviceLocator.register('rationMapper', function() {
+        serviceLocator.register('rationMapper', function () {
             if (typeof cache === 'undefined') {
                 var mapper = require('./mappers/ration');
                 cache = new mapper(serviceLocator.mongoose,
@@ -75,9 +54,9 @@ function bootstrap(config, serviceLocator) {
         });
     })();
 
-    (function() {
+    (function () {
         var cache;
-        serviceLocator.register('UsersMapper', function() {
+        serviceLocator.register('UsersMapper', function () {
             if (typeof cache === 'undefined') {
                 var mapper = require('./mappers/users');
                 cache = new mapper(serviceLocator.mongoose,
@@ -87,9 +66,9 @@ function bootstrap(config, serviceLocator) {
         });
     })();
 
-    (function() {
+    (function () {
         var cache;
-        serviceLocator.register('SessionsMapper', function() {
+        serviceLocator.register('SessionsMapper', function () {
             if (typeof cache === 'undefined') {
                 var mapper = require('./mappers/sessions');
                 cache = new mapper(serviceLocator.mongoose,
@@ -98,4 +77,24 @@ function bootstrap(config, serviceLocator) {
             return cache;
         });
     })();
+
+    (function (config) {
+        var cache;
+        serviceLocator.register('acl', function () {
+            var acl;
+            if (typeof cache === 'undefined') {
+                cache = require('simple-acl');
+                cache.use(new cache.MemoryStore());
+
+                config.forEach(function (item) {
+                    cache.grant(item.grantee, item.resource, function (err) {
+                        if (err) {
+                            throw err;
+                        }
+                    });
+                });
+            }
+            return cache;
+        });
+    })(config.acl);
 }

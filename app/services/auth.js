@@ -8,11 +8,13 @@ module.exports = function (serviceLocator) {
     var api = require('../api');
     var response = new api.response();
     var mapperUsers = serviceLocator['UsersMapper'](),
-        mapperSessions = serviceLocator['SessionsMapper']();
+        mapperSessions = serviceLocator['SessionsMapper'](),
+        socket = serviceLocator.socket;
 
-    this.login = function (params, callback) {
-        var identity = params.identity;
-        var credentail = params.credential;
+    this.createSession = function (params, callback) {
+        var identity = params.identity,
+            credentail = params.credential,
+            err;
 
         async.waterfall([
             findUser,
@@ -21,12 +23,15 @@ module.exports = function (serviceLocator) {
         ], function (err, session) {
             if (err) {
                 response.error(err);
+            } else if (! session) {
+                err = 'Session was not created';
+                response.error(err);
             } else {
                 var data = {
                     session: {
                         id: session._id,
-                        expired: 3600,
-                    },
+                        expired: 3600
+                    }
                 };
                 response.success(data);
             }
@@ -36,7 +41,7 @@ module.exports = function (serviceLocator) {
 
         function findUser(callback) {
             identity = identity.toLowerCase();
-            mapperUsers.get(identity, callback);
+            mapperUsers.getByIdentity(identity, callback);
         }
 
         function varifyCredential(user, callback) {
@@ -58,7 +63,40 @@ module.exports = function (serviceLocator) {
         }
     }
 
-    this.isLogged = function (params, callback) {
+    this.restoreSession = function (params, callback) {
+        var err,
+            sessionId = params.sessionId;
+
+        function getSession(callback) {
+            mapperSessions.get(params.sessionId, callback);
+        }
+
+        function restoreSession(session, callback) {
+            if (session) {
+                socket.clientSessionId = session._id.toString();
+                callback(null);
+            } else {
+                err = 'Session was not found';
+                callback(err);
+            }
+        }
+
+        async.waterfall([
+            getSession,
+            restoreSession
+        ], function (err, session) {
+            if (err) {
+                response.error(err);
+            } else {
+                response.success();
+            }
+
+            callback(response);
+        });
+
+    }
+
+    this.isSessionValid = function (params, callback) {
         mapperSessions.get(params.sessionId, function (err, doc) {
             if (err) {
                 response.error(err);

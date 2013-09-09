@@ -1,70 +1,106 @@
+"use strict";
+
 module.exports = {
     timezone: 'UTC',
     port: 8181,
     mongo: {
         connectionString: 'mongodb://localhost/colorage',
-        debug: false,
+        debug: false
     },
     routes: {
-        'AUTH:LOGIN': {
+        'AUTH:CREATE_SESSION': {
             service: 'auth',
-            action: 'login',
+            action: 'createSession'
         },
-        'AUTH:IS_LOGGED': {
+        'AUTH:RESTORE_SESSION': {
             service: 'auth',
-            action: 'isLogged',
+            action: 'restoreSession'
         },
+        'AUTH:IS_SESSION_VALID': {
+            service: 'auth',
+            action: 'isSessionValid'
+        },
+        // ---------------------------------------------------------------------
+        'USER:GET': {
+            service: 'user',
+            action: 'get'
+        },
+        // ---------------------------------------------------------------------
         'FOODSTUFF:POST': {
             service: 'foodstuff',
-            action: 'post',
+            action: 'post'
         },
         'FOODSTUFF:PUT': {
             service: 'foodstuff',
-            action: 'put',
+            action: 'put'
         },
         'FOODSTUFF:DELETE': {
             service: 'foodstuff',
-            action: 'delete',
+            action: 'delete'
         },
         'FOODSTUFF:GET': {
             service: 'foodstuff',
-            action: 'get',
+            action: 'get'
         },
         'FOODSTUFF:GET_ALL': {
             service: 'foodstuff',
-            action: 'getAll',
+            action: 'getAll'
         },
         'FOODSTUFF:SEARCH': {
             service: 'foodstuff',
-            action: 'search',
+            action: 'search'
         },
+        // ---------------------------------------------------------------------
         'RATION:POST': {
             service: 'ration',
-            action: 'post',
+            action: 'post'
         },
         'RATION:PUT': {
             service: 'ration',
-            action: 'put',
+            action: 'put'
         },
         'RATION:GET': {
             service: 'ration',
-            action: 'get',
+            action: 'get'
         },
         'RATION:DELETE': {
             service: 'ration',
-            action: 'delete',
+            action: 'delete'
         },
         'RATION:MOVE_UP': {
             service: 'ration',
-            action: 'moveUp',
+            action: 'moveUp'
         },
         'RATION:MOVE_DOWN': {
             service: 'ration',
-            action: 'moveDown',
+            action: 'moveDown'
         },
         'RATION:GET_ALL': {
             service: 'ration',
-            action: 'getAll',
-        },
+            action: 'getAll'
+        }
     },
+    acl: [
+        {grantee: "guest", resource: "AUTH:CREATE_SESSION"},
+        {grantee: "guest", resource: "AUTH:RESTORE_SESSION"},
+        {grantee: "guest", resource: "AUTH:IS_SESSION_VALID"},
+        {grantee: "user", resource: "AUTH:CREATE_SESSION"},
+        {grantee: "user", resource: "AUTH:RESTORE_SESSION"},
+        {grantee: "user", resource: "AUTH:IS_SESSION_VALID"},
+        // ---------------------------------------------------------------------
+        {grantee: "user", resource: "USER:GET"},
+        {grantee: "user", resource: "FOODSTUFF:POST"},
+        {grantee: "user", resource: "FOODSTUFF:PUT"},
+        {grantee: "user", resource: "FOODSTUFF:DELETE"},
+        {grantee: "user", resource: "FOODSTUFF:GET"},
+        {grantee: "user", resource: "FOODSTUFF:GET_ALL"},
+        {grantee: "user", resource: "FOODSTUFF:SEARCH"},
+        {grantee: "user", resource: "RATION:POST"},
+        {grantee: "user", resource: "RATION:PUT"},
+        {grantee: "user", resource: "RATION:GET"},
+        {grantee: "user", resource: "RATION:DELETE"},
+        {grantee: "user", resource: "RATION:MOVE_UP"},
+        {grantee: "user", resource: "RATION:MOVE_DOWN"},
+        {grantee: "user", resource: "RATION:GET_ALL"}
+    ]
 };

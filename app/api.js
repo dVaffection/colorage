@@ -1,31 +1,39 @@
 function apiRequest(data) {
-    this.cmd = data.REQ_CMD
-        ? data.REQ_CMD
-        : false;
-    this.id = data.REQ_ID
-        ? data.REQ_ID
-        : false;
-    this.params = data.REQ_PARAMS
-        ? data.REQ_PARAMS
-        : {};
+    "use strict";
+
+    if (! (this instanceof apiRequest)) {
+        throw new Error('Constructor called as a function');
+    }
+
+    this.cmd = data.REQ_CMD || false;
+    this.id = data.REQ_ID || false;
+    this.params = data.REQ_PARAMS || {};
 }
 
 
-function apiResponse() {
-    var _status,
+function apiResponse(ns) {
+    "use strict";
+
+    if (! (this instanceof apiResponse)) {
+        throw new Error('Constructor called as a function');
+    }
+
+    var _ns = ns || 'default',
+        _status,
         _errorDesc,
         _data = {},
         _errors = {};
 
-    this.success = function(data) {
+    this.success = function (data) {
         _status = true;
         if (data) {
             _data = data;
         }
     };
 
-    this.error = function(errorDesc, errors) {
+    this.error = function (errorDesc, errors) {
         _status = false;
+
         if (errorDesc) {
             _errorDesc = errorDesc;
         }
@@ -34,8 +42,8 @@ function apiResponse() {
         }
     }
 
-    this.export = function(request) {
-        if (!request instanceof apiRequest) {
+    this.export = function (request) {
+        if (! request instanceof apiRequest) {
             throw new Error('Request must be an instance of apiRequest');
         }
 
@@ -62,27 +70,45 @@ function apiResponse() {
 
         return response;
     }
+
+    this.getNS = function () {
+        return _ns;
+    }
 }
 
 
-function apiRouter(serviceLocator) {
-    this.dispatch = function(routes, request, callback) {
-        if (!request instanceof apiRequest) {
+function apiRouter(serviceLocator, grantee, acl) {
+    "use strict";
+
+    if (! (this instanceof apiRouter)) {
+        throw new Error('Constructor called as a function');
+    }
+
+    this.dispatch = function (routes, request, callback) {
+        if (! request instanceof apiRequest) {
             throw new Error('Request must be an instance of apiRequest');
         }
 
-        var found = routes[request.cmd]
-            ? routes[request.cmd]
-            : false;
+        var response,
+            resource = request.cmd,
+            found = routes[request.cmd] || false;
 
         // call an appropriate service
         if (found) {
-            var service = require('./services/' + found.service);
-            var service = new service(serviceLocator);
-            service[found.action](request.params, callback);
+            acl.assert(grantee, resource, function (err, res) {
+                if (res) {
+                    var service = require('./services/' + found.service),
+                        service = new service(serviceLocator);
+                    service[found.action](request.params, callback);
+                } else {
+                    response = new apiResponse('acl');
+                    response.error('Acl error');
+
+                    callback(response);
+                }
+            });
         } else {
-            // or return the error response
-            var response = new apiResponse();
+            response = new apiResponse();
             response.error('Unidentified route');
 
             callback(response);

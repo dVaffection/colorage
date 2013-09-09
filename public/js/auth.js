@@ -14,24 +14,26 @@ requirejs.config({
 
 require([
     'mappers/auth',
-    'jquery',
-], function(authMapper) {
+    'jquery'
+], function (authMapper) {
     if (typeof(Storage) === 'undefined') {
         alert('Can not work further, local storage is not supported!!!');
     }
 
-    $('form').on('submit', function(event) {
+    $('form').on('submit', function (event) {
         event.preventDefault();
+
 
         var identity = $('input[name="identity"]').val();
         var credential = $('input[name="credential"]').val();
-        console.log(identity, credential);
 
-        authMapper.login(identity, credential, function(response) {
+
+        authMapper.createSession(identity, credential, function (response) {
             if (response.RES_STATUS) {
                 localStorage.session = JSON.stringify(response.RES_DATA.session);
                 document.location.href = document.location.origin;
             } else {
+                // user error
                 alert(response.RES_ERROR_DESC);
             }
         });

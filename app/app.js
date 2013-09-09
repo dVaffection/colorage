@@ -1,6 +1,7 @@
 var serviceLocator,
     config,
-    bootstrap;
+    bootstrap,
+    async = require('async');
 if (typeof serviceLocator === 'undefined') {
     config = require('./config/index');
     bootstrap = require('./bootstrap');
@@ -36,44 +37,61 @@ function htmlHandler(req, res) {
             return res.end('Error loading html');
         }
 
-        res.writeHead(code ? code : 200);
+        res.writeHead(code || 200);
         res.end(data);
     });
 }
 
 
+// send minified client
+io.enable('browser client minification');
 io.of('/colorage').on('connection', function (socket) {
-
-    console.log('!!!!!!!!!!1');
-
-//    socket.get('auth', function(err, value) {
-//        console.log('handshake:', socket.handshake);
-//        console.log('Auth:', value);
-//
-//        if (!value) {
-//            // auth
-//            var value = {userId: 12345678};
-//            socket.set('auth', value, function() {
-//
-//            });
-//        } else {
-//
-//        }
-//    });
-
+    if (typeof serviceLocator.socket === 'undefined') {
+        serviceLocator.register('socket', socket);
+    }
 
     socket.on('default', function (data) {
-        var config = require('./config/index');
-        var api = require('./api');
+        var grantee = 'guest',
+            sessionId = serviceLocator.socket.clientSessionId,
+            mapperUsers = serviceLocator['UsersMapper'](),
+            mapperSessions = serviceLocator['SessionsMapper']();
 
-        var request = new api.request(data);
-        var router = new api.router(serviceLocator);
+        function getSession(callback) {
+            mapperSessions.get(sessionId, callback);
+        }
 
-        router.dispatch(config.routes, request, function (response) {
-            socket.emit('default', response.export(request));
+        function getUser(session, callback) {
+            if (session) {
+                mapperUsers.getById(session.userId, callback);
+            } else {
+                callback('Session was not found');
+            }
+        }
+
+        async.waterfall([
+            getSession,
+            getUser
+        ], function (err, user) {
+            if (err) {
+                console.log(err);
+            } else {
+                // for now roles are flat either authroized or not
+                grantee = user ? 'user' : 'guest';
+            }
+
+            console.log('clientSessionId:', sessionId);
+            console.log('Grantee: ', grantee);
+
+            var config = require('./config/index'),
+                api = require('./api'),
+                request = new api.request(data),
+                router = new api.router(serviceLocator, grantee, serviceLocator.acl());
+
+            router.dispatch(config.routes, request, function (response) {
+                socket.emit(response.getNS(), response.export(request));
+            });
+
+//                    socket.broadcast.emit('broadcast', response);
         });
-
-//        socket.broadcast.emit('broadcast', response);
-
     });
 });
